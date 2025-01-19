@@ -4,9 +4,9 @@ This project is an example of how to set up a simple TDD environment using TypeS
 
 ## How to use this repo
 
-You can clone this project and use it to do TDD with TypeScript, or you can use this README to help you set up your own TypeScript TDD project and absorb the learnings about how Node.js and Jest interact with ESModule syntax and as a starting point for a deeper understanding of how they both interact with the `tsc` compiler.
+You can fork this project and use it to do TDD with TypeScript, or you can use this README to help you set up your own TypeScript TDD project and absorb the learnings about how Node.js and Jest interact with ESModule syntax and as a starting point for a deeper understanding of how they both interact with the `tsc` compiler.
 
-This code has been tested with Node v18.16.0. If you want to use the code directly, feel free to fork amd then if you use `nvm`, run `nvm use` at the project root to ensure node compatibility. Now just `npm install` and play with the scripts and files as you wish!
+This code has been tested with Node v18.16.0. If you use `nvm`, run `nvm use` at the project root to ensure node compatibility. Now just `npm install` and play with the scripts and files as you wish!
 
 If you want to start learning how it all fits together and create your own TTD environment from scratch, read on!
 
@@ -17,6 +17,7 @@ The required development dependencies for a TypeScript TDD project with Jest are
 - ts-jest (the critical part of this setup. It is the transformer that jest will use to transform `*(.spec).ts` files into something it can run)
 - typescript (to transpile our TypeScript files into JavaScript files. It is required as a peer dependency of ts-jest)
 - @types/jest (the type declarations used by ts-jest. It is required as a peer dependency of ts-jest)
+- ts-node (not essential for the TDD part, but useful for running our app when we want to do so without having to emit new JavaScript)
 
 For the purpose of this documentation, we will use `npm` as the package manager.
 
@@ -24,13 +25,13 @@ We start by creating a project
 ```
 mkdir my-awesome-tdd
 cd my-awesome-tdd
-npm init -y`
+npm init -y
 ```
 ## Installing dependencies
 
 Then install the development dependencies (see above for a brief description of each)
 ```
-npm install --save-dev jest typescript ts-jest @types/jest
+npm install --save-dev jest typescript ts-jest ts-node @types/jest
 ```
 Typescript will need a basic configuration file to tell it how to process the `*.ts` files and emit `*.js` files. Luckily for us, we can ask it to generate one automatically
 ```
@@ -56,13 +57,13 @@ Now we want to be able to run our tests. We have already configured Jest to tran
 ```
 "test": "jest"
 ```
-We have already got Node running the emitted `*.js` files, but we need to build after every change and then run it. What if Node could run our `*.ts` files directly? We can use `ts-node` for this. The project installs `ts-node` and includes a script to run it
+We have already got Node running the emitted `*.js` files, but right now we would need to run our build script to emit new `*.js` files after every change we make before we can run with it. What if Node could run our `*.ts` files directly? We can use `ts-node` for this. The project installs `ts-node` and includes a script to run it
 ```
 "dev": "ts-node ./src/index.ts"
 ```
 ## An important note about the emitted JavaScript
 
-Notice that we have chosen to emit modules that use CommonJS module syntax. We can configure TypeScript to emit ESModules, but there is a critical difference between how TypeScript allows ESM imports to be expressed and what NodeJS expects from ESM import syntax:
+Notice that in `tsconfig.json` we have chosen to emit modules that use CommonJS module syntax. We can configure TypeScript to emit ESModules, but there is a critical difference between how TypeScript allows ESM imports to be expressed and what NodeJS expects from ESM import syntax.
 
 Typescript allows the file extension to be omitted in the file path value, so the import in our TypeScript file looks like this:
 
