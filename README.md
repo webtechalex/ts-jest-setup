@@ -8,7 +8,7 @@ You can fork this project and use it to do TDD with TypeScript, or you can use t
 
 This code has been tested with Node v18.16.0. If you use `nvm`, run `nvm use` at the project root to ensure node compatibility. Now just `npm install` and play with the scripts and files as you wish!
 
-If you want to start learning how it all fits together and create your own TTD environment from scratch, read on!
+If you want to start learning how it all fits together and create your own TDD environment from scratch, read on!
 
 ## Preparation
 
